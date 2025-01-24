@@ -1,0 +1,48 @@
+---
+const {
+    adresse,
+    favori,
+    id,
+    nbChambres,
+    nbSdb,
+    nomMaison,
+    prix,
+    surface,
+    imgUrl,
+} = Astro.props;
+---
+
+<div class="flex align-center justify-center">
+    <div class="flex flex-col w-2/5 rounded-md shadow-lg my-4">
+        <div>
+            <img src={imgUrl} alt="Image de la maison" />
+        </div>
+        <div class="p-2 m-2">
+            <div class="flex justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">
+                        <span class="font-bold text-xl text-purple-500"
+                            >${prix}</span
+                        >/months
+                    </p>
+                    <h2 class="font-bold text-2xl">{nomMaison}</h2>
+                </div>
+                <div>
+                    <p>{favori}</p>
+                </div>
+            </div>
+
+            <p
+                class="text-lg text-gray-500 mt-4 border-solid border-b-2 pb-6 border-gray-300"
+            >
+                {adresse}
+            </p>
+
+            <div class="flex justify-between mx-8 my-6">
+                <p>{nbChambres} lits</p>
+                <p>{nbSdb} salles de bain</p>
+                <p>{surface} m²</p>
+            </div>
+        </div>
+    </div>
+</div>
