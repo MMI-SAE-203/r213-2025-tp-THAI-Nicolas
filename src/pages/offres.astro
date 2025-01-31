@@ -8,6 +8,22 @@ const offres = await getOffres();
 <Base titre="Page des offres">
     <h1 class="text-center text-3xl p-6">Découvrir nos offres</h1>
 
+    <div x-data="{ ShowGrille: false }">
+        <button
+            @click="ShowGrille = !ShowGrille"
+            class="bg-sky-400 text-white p-2 rounded-md px-4 py-2 ml-12"
+        >
+            <span x-show="!ShowGrille">Afficher en grille</span>
+            <span x-show="ShowGrille">Afficher en liste</span>
+        </button>
+
+        <div
+            x-bind:class="ShowGrille && 'grid grid-cols-3 rounded-md gap-4' || 'block'"
+        >
+            {offres.map((offre) => <Card {...offre} />)}
+        </div>
+    </div>
+
     <div x-data="{ShowFavorites : false}">
         <button
             @click="ShowFavorites = !ShowFavorites"
