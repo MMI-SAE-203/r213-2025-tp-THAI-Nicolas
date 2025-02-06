@@ -1,7 +1,7 @@
 ---
-import Base from "../layouts/Base.astro";
-import Card from "../components/Card.astro";
-import { getOffres } from "../backend.mjs";
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import { getOffres } from "../../backend.mjs";
 const offres = await getOffres();
 ---
 
@@ -23,7 +23,7 @@ const offres = await getOffres();
             {offres.map((offre) => <Card {...offre} />)}
         </div>
     </div>
-
+    <!--
     <div x-data="{ShowFavorites : false}">
         <button
             @click="ShowFavorites = !ShowFavorites"
@@ -40,4 +40,5 @@ const offres = await getOffres();
             {offres.map((offre) => <Card {...offre} />)}
         </div>
     </div>
+    -->
 </Base>
