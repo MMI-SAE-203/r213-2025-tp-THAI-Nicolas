@@ -35,3 +35,10 @@ export async function bySurface(s) {
     return maisonSurface;
 
 }
+
+export async function byPrice(p) {
+    const maisonPrice = await pb.collection('maison').getFullList({
+        filter: `prix_maison < ${p}`,
+    });
+    return maisonPrice;
+}
