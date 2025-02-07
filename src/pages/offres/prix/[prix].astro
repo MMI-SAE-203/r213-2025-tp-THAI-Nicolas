@@ -1,6 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import { byPrice } from "../../../backend.mjs";
+import Card from "../../../components/Card.astro";
 
 const { prix } = Astro.params;
 const offres = await byPrice(prix);
@@ -10,13 +11,10 @@ if (!offres) {
 ---
 
 <Base>
-    <h1>Maisons avec un prix infèrieur à {prix}</h1>
-    <ul>
-        {
-            offres.map((maison) => (
-                <li>{maison.nom_maison}</li>
-                <li>{maison.prix_maison}</li>
-            ))
-        }
+    <h1 class="text-2xl font-bold p-10 text-center">
+        Maisons avec un prix inférieur à {prix}
+    </h1>
+    <ul class="flex flex-col justify-center items-center">
+        {offres.map((offre) => <Card {...offre} />)}
     </ul>
 </Base>

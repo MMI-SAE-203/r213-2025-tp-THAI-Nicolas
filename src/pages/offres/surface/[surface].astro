@@ -1,6 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import { bySurface } from "../../../backend.mjs";
+import Card from "../../../components/Card.astro";
 
 const { surface } = Astro.params;
 const offres = await bySurface(surface);
@@ -13,12 +14,7 @@ if (!offres) {
 
 <Base>
     <h1>Maisons avec surface supérieure à {surface} m²</h1>
-    <ul>
-        {
-            offres.map((maison) => (
-                <li>{maison.nom_maison}</li>
-                <li>{maison.surface_maison}</li>
-            ))
-        }
+    <ul class="flex flex-col justify-center items-center">
+        {offres.map((offre) => <Card {...offre} />)}
     </ul>
 </Base>
