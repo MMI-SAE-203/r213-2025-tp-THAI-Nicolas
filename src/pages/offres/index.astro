@@ -1,11 +1,16 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Card from "../../components/Card.astro";
-import { getOffres } from "../../backend.mjs";
+import { bySurface, getOffres } from "../../backend.mjs";
 const offres = await getOffres();
+const { ...offre } = Astro.props;
+console.log(offre);
 ---
 
 <Base titre="Page des offres">
+    <a href={`/offres/surface/80`}
+        >Afficher les maisons avec une surface supèrieur à 80m²</a
+    >
     <h1 class="text-center text-3xl p-6">Découvrir nos offres</h1>
 
     <div x-data="{ ShowGrille: false }">
