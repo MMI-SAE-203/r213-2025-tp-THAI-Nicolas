@@ -2,12 +2,59 @@
 import Base from "../../layouts/Base.astro";
 import Card from "../../components/Card.astro";
 import { bySurface, getOffres } from "../../backend.mjs";
-const offres = await getOffres();
+import { filterByPrix } from "../../backend.mjs";
 const { ...offre } = Astro.props;
-console.log(offre);
+
+let message = "";
+let offres = [];
+if (Astro.request.method === "POST") {
+    const data = await Astro.request.formData();
+    const minPrix = parseInt(data.get("minPrix") as string);
+    const maxPrix = parseInt(data.get("maxPrix") as string);
+
+    if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+        offres = await filterByPrix(minPrix, maxPrix);
+        if (offres.length === 0) {
+            message = `Pas d'offres entre ${minPrix} et ${maxPrix}€`;
+        } else {
+            message = `Liste des offres entre ${minPrix} et ${maxPrix}€`;
+        }
+    } else {
+        message = "Veuillez saisir des valeurs correctes";
+        offres = await getOffres();
+    }
+} else {
+    offres = await getOffres();
+}
 ---
 
 <Base titre="Page des offres">
+    <div class="flex justify-between items-center p-10">
+        <div>
+            <form
+                action="/offres"
+                method="POST"
+                class="*:border border-gray-300 rounded-md p-2 mb-4"
+            >
+                <input
+                    type="number"
+                    name="minPrix"
+                    placeholder="Prix minimum"
+                />
+                <input
+                    type="number"
+                    name="maxPrix"
+                    placeholder="Prix maximum"
+                />
+                <input type="submit" value="Filtrer par prix" />
+            </form>
+        </div>
+
+        <a href="/offres/add" class="bg-gray-100 p-3 rounded-md"
+            >Ajouter une offre de maison</a
+        >
+    </div>
+
     <a href={`/offres/surface/80`}
         >Afficher les maisons avec une surface supèrieur à 80m²</a
     >
