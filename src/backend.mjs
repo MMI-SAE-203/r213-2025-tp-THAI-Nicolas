@@ -141,3 +141,15 @@ export async function filterBySurface(surfaceMin, surfaceMax) {
 export async function setFavori(house) {
     await pb.collection('maison').update(house.id, { favoris_maison: !house.favoris_maison });
 }
+export async function getFavoris() {
+    try {
+        const favoris = await pb.collection('maison').getFullList({
+            filter: 'favoris_maison = true',
+        });
+        return favoris;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant les favoris', error);
+        return [];
+    }
+}
+

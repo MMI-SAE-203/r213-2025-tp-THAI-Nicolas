@@ -1,0 +1,15 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getFavoris } from "../../backend.mjs";
+import Card from "../../components/Card.astro";
+const favoris = await getFavoris();
+---
+
+<Base>
+  <h1 class="text-center text-4xl text-red font-bold py-10">
+    Votre liste des favoris
+  </h1>
+  <ul>
+    {favoris.map((offre) => <Card {...offre} />)}
+  </ul>
+</Base>
