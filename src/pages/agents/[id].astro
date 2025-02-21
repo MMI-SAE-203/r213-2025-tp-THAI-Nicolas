@@ -10,6 +10,9 @@ if (!offres) {
   Astro.redirect("/agents");
 }
 const agent = await getAgent(id);
+if (!agent) {
+  Astro.redirect("/agents");
+}
 ---
 
 <Base titre={`${agent.prenom_agent} ${agent.nom_agent}`}>
