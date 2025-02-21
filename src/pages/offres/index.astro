@@ -3,96 +3,103 @@ import Base from "../../layouts/Base.astro";
 import Card from "../../components/Card.astro";
 import { bySurface, getOffres } from "../../backend.mjs";
 import { filterByPrix } from "../../backend.mjs";
-const { ...offre } = Astro.props;
 
 let message = "";
 let offres = [];
 if (Astro.request.method === "POST") {
-    const data = await Astro.request.formData();
-    const minPrix = parseInt(data.get("minPrix") as string);
-    const maxPrix = parseInt(data.get("maxPrix") as string);
+  const data = await Astro.request.formData();
+  const minPrix = parseInt(data.get("minPrix") as string);
+  const maxPrix = parseInt(data.get("maxPrix") as string);
 
-    if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
-        offres = await filterByPrix(minPrix, maxPrix);
-        if (offres.length === 0) {
-            message = `Pas d'offres entre ${minPrix} et ${maxPrix}€`;
-        } else {
-            message = `Liste des offres entre ${minPrix} et ${maxPrix}€`;
-        }
+  if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+    offres = await filterByPrix(minPrix, maxPrix);
+    if (offres.length === 0) {
+      message = `Pas d'offres entre ${minPrix} et ${maxPrix}€`;
     } else {
-        message = "Veuillez saisir des valeurs correctes";
-        offres = await getOffres();
+      message = `Liste des offres entre ${minPrix} et ${maxPrix}€`;
     }
-} else {
+  } else {
+    message = "Veuillez saisir des valeurs correctes";
     offres = await getOffres();
+  }
+} else {
+  offres = await getOffres();
 }
 ---
 
 <Base titre="Page des offres">
-    <div class="flex justify-between items-center p-10">
-        <div>
-            <form
-                action="/offres"
-                method="POST"
-                class="*:border border-gray-300 rounded-md p-2 mb-4"
-            >
-                <input
-                    type="number"
-                    name="minPrix"
-                    placeholder="Prix minimum"
-                />
-                <input
-                    type="number"
-                    name="maxPrix"
-                    placeholder="Prix maximum"
-                />
-                <input type="submit" value="Filtrer par prix" />
-            </form>
-        </div>
-
-        <a href="/offres/add" class="bg-gray-100 p-3 rounded-md"
-            >Ajouter une offre de maison</a
-        >
-    </div>
-
-    <a href={`/offres/surface/80`}
-        >Afficher les maisons avec une surface supèrieur à 80m²</a
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12"
     >
-    <br />
-    <a href={`/offres/prix/5000`}>Afficher les maisons infèrieur à 5000€</a>
-    <h1 class="text-center text-3xl p-6">Découvrir nos offres</h1>
-
-    <div x-data="{ ShowGrille: false }">
-        <button
-            @click="ShowGrille = !ShowGrille"
-            class="bg-sky-400 text-white p-2 rounded-md px-4 py-2 ml-12"
+      <div class="w-full md:w-auto">
+        <form
+          action="/offres"
+          method="POST"
+          class="flex flex-wrap gap-4 items-center"
         >
-            <span x-show="!ShowGrille">Afficher en grille</span>
-            <span x-show="ShowGrille">Afficher en liste</span>
-        </button>
+          <input
+            type="number"
+            name="minPrix"
+            placeholder="Prix minimum"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all"
+          />
+          <input
+            type="number"
+            name="maxPrix"
+            placeholder="Prix maximum"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all"
+          />
+          <button
+            type="submit"
+            class="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+          >
+            Filtrer par prix
+          </button>
+        </form>
+      </div>
 
-        <div
-            x-bind:class="ShowGrille && 'grid grid-cols-3 rounded-md gap-4' || 'block'"
-        >
-            {offres.map((offre) => <Card {...offre} />)}
-        </div>
+      <a
+        href="/offres/add"
+        class="bg-white hover:bg-gray-100 text-black px-6 py-2 rounded-lg transition-colors duration-200 border border-black"
+      >
+        Ajouter une offre de maison
+      </a>
     </div>
-    <!--
-    <div x-data="{ShowFavorites : false}">
-        <button
-            @click="ShowFavorites = !ShowFavorites"
-            class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-        >
-            <span x-show="!ShowFavorites">Afficher les favoris</span>
-            <span x-show="ShowFavorites">Afficher tout</span>
-        </button>
-        <div x-show="ShowFavorites">
-            {offres.map((offre) => offre.favori && <Card {...offre} />)}
-        </div>
 
-        <div x-show="!ShowFavorites">
-            {offres.map((offre) => <Card {...offre} />)}
-        </div>
+    <div class="flex flex-col gap-4 mb-12">
+      <a
+        href={`/offres/surface/80`}
+        class="text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Afficher les maisons avec une surface supérieure à 80m²
+      </a>
+      <a
+        href={`/offres/prix/5000`}
+        class="text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Afficher les maisons inférieures à 5000€
+      </a>
     </div>
-    -->
+
+    <h1 class="text-4xl font-bold text-gray-900 text-center mb-12">
+      Découvrir nos offres
+    </h1>
+
+    <div x-data="{ ShowGrille: false }" class="space-y-8">
+      <button
+        @click="ShowGrille = !ShowGrille"
+        class="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+      >
+        <span x-show="!ShowGrille">Afficher en grille</span>
+        <span x-show="ShowGrille">Afficher en liste</span>
+      </button>
+
+      <div
+        x-bind:class="ShowGrille && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' || 'space-y-6'"
+      >
+        {offres.map((offre) => <Card {...offre} />)}
+      </div>
+    </div>
+  </div>
 </Base>

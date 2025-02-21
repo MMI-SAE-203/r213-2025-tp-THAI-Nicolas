@@ -1,0 +1,23 @@
+---
+import Base from "../../layouts/Base.astro";
+import { allOffresByAgent } from "../../backend.mjs";
+import Card from "../../components/Card.astro";
+import { getAgent } from "../../backend.mjs";
+
+const { id } = Astro.params;
+const offres = await allOffresByAgent(id);
+if (!offres) {
+  Astro.redirect("/agents");
+}
+const agent = await getAgent(id);
+---
+
+<Base titre={`${agent.prenom_agent} ${agent.nom_agent}`}>
+  <h1 class="text-4xl font-bold text-center mt-20 mx-16">
+    {agent.prenom_agent}
+    {agent.nom_agent}
+  </h1>
+  <ul>
+    {offres.map((offre) => <Card {...offre} />)}
+  </ul>
+</Base>

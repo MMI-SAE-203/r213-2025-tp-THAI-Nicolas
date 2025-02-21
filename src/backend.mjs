@@ -17,10 +17,48 @@ export async function getOffres() {
     }
 }
 
+export async function getAgents() {
+    try {
+        let data = await pb.collection('Agent').getFullList({
+            sort: '-created',
+        });
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la liste des agents', error);
+        return [];
+    }
+}
+
+export async function getAgent(id) {
+    try {
+        let data = await pb.collection('Agent').getOne(id);
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant l\'agent', error);
+        return null;
+    }
+}
+export async function allOffresByAgent(artisteId) {
+    try {
+        let data = await pb.collection('maison').getFullList({
+            filter: `agent_maison = "${artisteId}"`,
+            expand: 'agent_maison',
+        });
+        data = data.map((maison) => {
+            maison.img = pb.files.getURL(maison, maison.images_maison);
+            return maison;
+        });
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant les évènements d\'un agent', error);
+        return [];
+    }
+}
+
 export async function getOffre(id) {
     try {
         let data = await pb.collection('maison').getOne(id);
-        data.img = pb.files.getURL(data, data.image);
+        data.img = pb.files.getURL(data, data.images_maison);
         return data;
     } catch (error) {
         console.log('Une erreur est survenue en lisant la maison', error);
@@ -99,4 +137,7 @@ export async function filterBySurface(surfaceMin, surfaceMax) {
         console.log('Une erreur est survenue en filtrant la liste des maisons par surface', error);
         return [];
     }
+}
+export async function setFavori(house) {
+    await pb.collection('maison').update(house.id, { favoris_maison: !house.favoris_maison });
 }

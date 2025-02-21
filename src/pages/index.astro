@@ -3,26 +3,47 @@ import Base from "../layouts/Base.astro";
 ---
 
 <Base titre="Page d'accueil">
-    <div class="flex flex-col items-center p-36">
-        <h1 class="text-center text-3xl font-playfair">
-            Bienvenue sur notre site Immobilier
-        </h1>
-        <a
-            class="px-4 py-2 m-4 bg-black text-white rounded-md text-sm font-playfair"
-            href="">Découvrir</a
-        >
+  <div class="relative h-[90vh]">
+    <div class="absolute inset-0 bg-black/40 z-10"></div>
+    <div class="absolute inset-0">
+      <img
+        src="/maison7.jpg"
+        alt="Propriété de luxe"
+        class="w-full h-full object-cover"
+      />
     </div>
-    <div x-data="{VoirTexte : false}" class="bg-gray-300 h-80">
-        <p class="">Test de tailwind</p>
-
-        <button
-            @click="VoirTexte = !VoirTexte"
-            class="p-4 m-2 bg-black text-white"
-            >Voir le texte
-        </button>
-
-        <p x-show="VoirTexte" x-transition>
-            Ceci est un texte qui doit être cacher
-        </p>
+    <div
+      class="relative z-20 flex flex-col items-center justify-center h-full text-white"
+    >
+      <h1 class="text-5xl md:text-7xl font-playfair mb-6 text-center">
+        Votre Luxe Immobilier
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-2xl text-center font-light">
+        Découvrez des propriétés d'exception qui dépassent vos attentes
+      </p>
+      <a
+        href="/offres"
+        class="border-2 border-white px-8 py-3 hover:bg-white hover:text-black transition-colors duration-300 font-playfair"
+      >
+        Découvrir nos offres
+      </a>
     </div>
+  </div>
+
+  <div class="bg-black text-white py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-playfair mb-6">
+        Vous souhaitez vendre une maison ?
+      </h2>
+      <p class="mb-8 text-gray-300 font-playfair">
+        Ajouter une offre immobilière en quelques clics
+      </p>
+      <a
+        href="/offres/add"
+        class="border-2 border-white px-8 py-3 hover:bg-white hover:text-black transition-colors duration-300 font-playfair"
+      >
+        Ajouter une offre
+      </a>
+    </div>
+  </div>
 </Base>

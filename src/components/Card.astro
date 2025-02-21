@@ -2,12 +2,103 @@
 const { ...offre } = Astro.props;
 ---
 
+<script>
+  //@ts-nocheck
+  import { setFavori } from "../backend.mjs";
+  window.setFavori = setFavori;
+</script>
+
 <div
-    class="flex flex-col items-center justify-center mx-auto w-2/5 rounded-md shadow-lg my-4"
+  x-data={`{favori: ${offre.favoris_maison}, clickFavori() {this.favori = !this.favori; setFavori(${JSON.stringify(offre)});}}`}
+  class="flex flex-col w-full max-w-md rounded-md shadow-lg my-4 p-4 mx-auto bg-white hover:shadow-xl"
 >
-    <div>
-        <img src={offre.img} alt="Image de la maison" />
+  <div class="w-full h-72 overflow-hidden rounded-t-md">
+    <img
+      src={offre.img}
+      alt={`Photo de ${offre.nom_maison}`}
+      class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+    />
+  </div>
+  <div class="p-6 w-full">
+    <div class="flex justify-between items-center">
+      <h2
+        class="font-montserrat font-bold text-2xl mb-2 text-black tracking-wide"
+      >
+        {offre.nom_maison}
+      </h2>
+      <button class="p-2" @click="clickFavori">
+        <img
+          :src="favori ? '/favorite_filled.png' : '/favorite.png'"
+          alt="Favorite Icon"
+          class="w-6 h-6"
+        />
+      </button>
     </div>
-    <h2 class="font-bold text-2xl">{offre.nom_maison}</h2>
-    <a href={`/offres/${offre.id}`}>Voir plus</a>
+
+    <p class="text-gray-700 mb-2 font-montserrat font-light italic">
+      {offre.adresse_maison}
+    </p>
+    <div class="flex gap-4 text-gray-600 mb-3 font-montserrat">
+      <span class="flex items-center gap-1">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+          ></path>
+        </svg>
+        {offre.surface_maison} m²
+      </span>
+      <span class="flex items-center gap-1">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12h18M3 12a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6zM3 12l2-5h14l2 5"
+          ></path>
+        </svg>
+        {offre.nombres_chambre_maison}
+      </span>
+      <span class="flex items-center gap-1">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 12h-3m3 0v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7m18 0v-5a2 2 0 00-2-2H5a2 2 0 00-2 2v5m18 0H3m4-3h.01M7 9h.01M7 6h.01M11 6h.01M11 9h.01M15 6h.01M15 9h.01M19 6h.01M19 9h.01"
+          ></path>
+        </svg>
+        {offre.nombres_salle_de_bain_maison}
+      </span>
+    </div>
+    <p class="font-playfair font-semibold text-2xl mb-4 text-black">
+      {offre.prix_maison}€
+    </p>
+
+    <div class="flex justify-between items-center">
+      <a
+        href={`/offres/${offre.id}`}
+        class="inline-block bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-all duration-300 font-montserrat tracking-wider"
+      >
+        Voir plus
+      </a>
+    </div>
+  </div>
 </div>
