@@ -28,6 +28,11 @@ if (Astro.request.method === "POST") {
 ---
 
 <Base titre="Page des offres">
+  <h1
+    class="text-4xl font-bold text-gray-900 text-center mb-12 font-playfair my-20"
+  >
+    Découvrir nos offres
+  </h1>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div
       class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12"
@@ -81,10 +86,6 @@ if (Astro.request.method === "POST") {
         Afficher les maisons inférieures à 5000€
       </a>
     </div>
-
-    <h1 class="text-4xl font-bold text-gray-900 text-center mb-12">
-      Découvrir nos offres
-    </h1>
 
     <div x-data="{ ShowGrille: false }" class="space-y-8">
       <button

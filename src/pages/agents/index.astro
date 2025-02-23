@@ -7,7 +7,9 @@ const agents = await getAgents();
 ---
 
 <Base titre="Nos agents">
-  <h1 class="text-4xl font-bold text-center mt-20 mx-16">Nos agents</h1>
+  <h1 class="text-4xl font-bold text-center mt-20 mx-16 font-playfair">
+    Nos agents
+  </h1>
 
   <ul>
     {agents.map((agent) => <CardAgent {...agent} />)}
